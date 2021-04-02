@@ -1,10 +1,29 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import Router from "svelte-spa-router";
   import Menu from "./components/menu/Menu.svelte";
+  import { User } from "./models/User";
 
   import routes from "./routes";
+  import { USER_STORE } from "./stores/UserStore";
+  import { slimGet } from "./utils/slimFetch";
 
   let width: number;
+
+  onMount(resume);
+
+  async function resume() {
+    try {
+      const user = await slimGet("/user/resume");
+      // console.log(user);
+
+      if (user) USER_STORE.set(new User(user));
+    } catch (e) {
+      // window.location.pathname = "/#/signup";
+      console.log(e);
+    }
+  }
 </script>
 
 <main bind:clientWidth={width}>

@@ -5,7 +5,11 @@ export const slimPut = async <T>(url: string, data?: T) => await (await fetch(ur
   method: 'PUT'
 }))
 
-export const slimPost = async <T>(url: string, data?: T) => await (await fetch(url, {
-  body: JSON.stringify(data),
-  method: 'POST'
-}))
+export const slimPost = async <T>(url: string, data?: T) =>
+  await (await fetch(url, {
+    body: JSON.stringify(data),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }))

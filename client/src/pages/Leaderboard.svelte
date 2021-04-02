@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { User } from "../models/User";
+  import { USER_STORE } from "../stores/UserStore";
   import { slimGet } from "../utils/slimFetch";
 
   let users: User[] = [];
@@ -28,7 +29,7 @@
   <table>
     <thead>
       <tr>
-        <th></th>
+        <th />
         <th>Name</th>
         <th>Score</th>
         <th>Completed</th>
@@ -36,8 +37,11 @@
     </thead>
     <tbody>
       {#each sorted as user, i}
-        <tr class:valid={user.average > 0 && user.scores.length > 0}>
-          <td>{1+i}</td>
+        <tr
+          class:valid={user.average > 0 && user.scores.length > 0}
+          class:you={user._id === $USER_STORE._id}
+        >
+          <td>{1 + i}</td>
           <td>{user.username}</td>
           <td class="center">{user.average}</td>
           <td class="center">{user.scores.length}</td>
@@ -68,11 +72,15 @@
     padding: 10px;
   }
 
+  tbody{
+    position: relative;
+  }
+
   td.center {
     text-align: center;
   }
 
-  tbody tr.valid:is(:nth-child(1),:nth-child(2),:nth-child(3)){
+  tbody tr.valid:is(:nth-child(1), :nth-child(2), :nth-child(3)) {
     font-weight: bold;
     background-image: linear-gradient(
       to right,
@@ -82,7 +90,7 @@
     );
     text-shadow: 0 0 10px black;
   }
-  
+
   tbody tr.valid:first-child {
     background-color: goldenrod;
     font-size: 1.25rem;
@@ -103,12 +111,16 @@
       var(--trans)
     );
   }
-  /* tbody tr:nth-child(even) {
+  
+  tbody tr.you{
     background-image: linear-gradient(
       to right,
+      #ffffff50,
       var(--trans),
-      var(--highlight),
-      var(--trans)
+      #ffffff50
     );
-  } */
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
 </style>

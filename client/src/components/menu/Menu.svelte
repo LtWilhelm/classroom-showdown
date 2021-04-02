@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
+  import { USER_STORE } from "../../stores/UserStore";
   import Icon from "../Icon.svelte";
   import MenuItem from "./MenuItem.svelte";
 
@@ -31,12 +32,22 @@
         {#each routes as route}
           <MenuItem to={route.to}>{route.name}</MenuItem>
         {/each}
+        {#if !$USER_STORE._id}
+          <MenuItem to="/signup">Sign Up</MenuItem>
+        {/if}
+        {#if $USER_STORE.role === "instructor"}
+          <MenuItem to="/invite">Invite</MenuItem>
+          <MenuItem to="/students">Manage Students</MenuItem>
+        {/if}
       </ul>
     {:else}
       <ul transition:fly={{ duration: 500, y: -200 }}>
         {#each routes as route}
           <MenuItem to={route.to}>{route.name}</MenuItem>
         {/each}
+        {#if !$USER_STORE._id}
+          <MenuItem to="/signup">Sign Up</MenuItem>
+        {/if}
       </ul>
     {/if}
   {/if}

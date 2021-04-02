@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import Loader from "../components/Loader.svelte";
   import { Challenge } from "../models/Challenge";
+import { USER_STORE } from "../stores/UserStore";
   import { slimGet } from "../utils/slimFetch";
 
   let challenges: { name: string; _id: string }[] = [];
@@ -23,6 +24,9 @@
     {#each challenges as challenge}
       <li on:click={() => select(challenge._id)}>{challenge.name}</li>
     {/each}
+    {#if $USER_STORE.role = 'instructor'}
+      <li><button>Add</button></li>
+    {/if}
   </ul>
   {#if currentChallenge}
     <div>
