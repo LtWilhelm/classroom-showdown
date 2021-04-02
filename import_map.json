@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "drash": "https://deno.land/x/drash@v1.4.2/mod.ts",
+    "mongo": "https://deno.land/x/mongo@v0.22.0/mod.ts"
+  }
+}
