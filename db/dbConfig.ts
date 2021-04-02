@@ -1,6 +1,6 @@
 import { MongoClient } from "mongo";
 
 const client = new MongoClient();
-await client.connect("mongodb+srv://cmAdmin:8OxpklTtmBP5so18@cluster0-0walf.mongodb.net");
+await client.connect(Deno.env.get('MONGODB_URI')!);
 
 export default client.database('class-scores');
