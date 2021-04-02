@@ -1,1 +1,1 @@
-web: deno run --allow-net=:${PORT} --allow-read --import-map=import_map.json server.ts --port=${PORT}
+web: deno run --allow-net --allow-read --import-map=import_map.json server.ts --port=${PORT}
