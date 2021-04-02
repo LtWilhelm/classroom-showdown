@@ -9,7 +9,7 @@ export class UserResource extends Drash.Http.Resource {
   public async GET() {
     this.response.headers.set('content-type', 'application/json');
     this.id = this.request.getPathParam('id');
-    
+
     if (this.id) await this.getById();
     else await this.getAll();
 
@@ -20,7 +20,7 @@ export class UserResource extends Drash.Http.Resource {
     const body = (await this.request.getAllBodyParams()).data;
     if (body) {
       const id = await users.insertOne(body);
-      this.response.body = id;
+      this.response.body = id.toString();
     }
     return this.response;
   }

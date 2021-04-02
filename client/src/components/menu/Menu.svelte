@@ -15,6 +15,10 @@
       name: "Leaderboard",
       to: "/leaderboard",
     },
+    {
+      name: "Challenges",
+      to: "/challenges",
+    },
   ];
 </script>
 

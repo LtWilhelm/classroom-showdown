@@ -2,8 +2,8 @@
   font-family: 'cmicon';
   src: url('/assets/fonts/cmicon.eot');
   src: url('/assets/fonts/cmicon.eot') format('embedded-opentype'),
-       url('/assets/fonts/cmicon.wof') format('woff2'),
-       url('/assets/fonts/cmicon.wof') format('woff'),
+       url('/assets/fonts/cmicon.woff2') format('woff2'),
+       url('/assets/fonts/cmicon.woff') format('woff'),
        url('/assets/fonts/cmicon.ttf') format('truetype'),
        url('/assets/fonts/cmicon.svg') format('svg');
   font-weight: normal;

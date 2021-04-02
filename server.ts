@@ -1,5 +1,6 @@
 import { Drash } from 'drash';
-import {UserResource} from './resources/users.ts';
+import { UserResource } from './resources/users.ts';
+import { ChallengesResource } from './resources/challenges.ts';
 
 class HomeResource extends Drash.Http.Resource {
   static paths = ['/'];
@@ -15,7 +16,7 @@ class HomeResource extends Drash.Http.Resource {
 const server = new Drash.Http.Server({
   directory: Deno.cwd(),
   response_output: "text/html",
-  resources: [HomeResource, UserResource],
+  resources: [HomeResource, UserResource, ChallengesResource],
   static_paths: {
     "/assets": "/client/public",
   }
