@@ -48,4 +48,4 @@ server.run({
   port: portArg ? Number(portArg) : DEFAULT_PORT
 }).then(s => {
   console.log('Running on ' + (portArg ? portArg : DEFAULT_PORT));
-})
+}).catch(r => console.log(r))

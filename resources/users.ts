@@ -40,6 +40,7 @@ export class UserResource extends Drash.Http.Resource {
   }
 }
 
+
 export class UserSignUpResource extends Drash.Http.Resource {
   static paths = ["/user/:method"]
 
