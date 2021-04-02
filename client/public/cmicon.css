@@ -1,0 +1,107 @@
+@font-face {
+  font-family: 'cmicon';
+  src: url('/assets/fonts/cmicon.eot');
+  src: url('/assets/fonts/cmicon.eot') format('embedded-opentype'),
+       url('/assets/fonts/cmicon.wof') format('woff2'),
+       url('/assets/fonts/cmicon.wof') format('woff'),
+       url('/assets/fonts/cmicon.ttf') format('truetype'),
+       url('/assets/fonts/cmicon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'cmicon';
+    src: url('../font/cmicon.svg?38254731#cmicon') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "cmicon";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-meteorite:before { content: '\e800'; } /* '' */
+.icon-planetary:before { content: '\e801'; } /* '' */
+.icon-galaxy:before { content: '\e802'; } /* '' */
+.icon-footprints-on-the-moon:before { content: '\e803'; } /* '' */
+.icon-sputnik:before { content: '\e804'; } /* '' */
+.icon-astronaut:before { content: '\e805'; } /* '' */
+.icon-star:before { content: '\e806'; } /* '' */
+.icon-extraterrestrial-head:before { content: '\e807'; } /* '' */
+.icon-ufo-picture:before { content: '\e808'; } /* '' */
+.icon-spaceport:before { content: '\e809'; } /* '' */
+.icon-iss:before { content: '\e80a'; } /* '' */
+.icon-sputnik:before { content: '\e80b'; } /* '' */
+.icon-sputnik:before { content: '\e80c'; } /* '' */
+.icon-module:before { content: '\e80d'; } /* '' */
+.icon-sputnik:before { content: '\e80e'; } /* '' */
+.icon-mars-rover:before { content: '\e80f'; } /* '' */
+.icon-shuttle:before { content: '\e810'; } /* '' */
+.icon-moonwalker:before { content: '\e811'; } /* '' */
+.icon-rocket:before { content: '\e812'; } /* '' */
+.icon-shuttle:before { content: '\e813'; } /* '' */
+.icon-ufo:before { content: '\e814'; } /* '' */
+.icon-rocket-start:before { content: '\e815'; } /* '' */
+.icon-capsule:before { content: '\e816'; } /* '' */
+.icon-capsule:before { content: '\e817'; } /* '' */
+.icon-lander:before { content: '\e818'; } /* '' */
+.icon-capsule-parachute:before { content: '\e819'; } /* '' */
+.icon-lander:before { content: '\e81a'; } /* '' */
+.icon-telescope:before { content: '\e81b'; } /* '' */
+.icon-telescope:before { content: '\e81c'; } /* '' */
+.icon-radar:before { content: '\e81d'; } /* '' */
+.icon-radar:before { content: '\e81e'; } /* '' */
+.icon-astronaut-and-flag:before { content: '\e81f'; } /* '' */
+.icon-extraterrestrial:before { content: '\e820'; } /* '' */
+.icon-astronaut:before { content: '\e821'; } /* '' */
+.icon-blaster:before { content: '\e822'; } /* '' */
+.icon-rocket:before { content: '\e823'; } /* '' */
+.icon-ufo:before { content: '\e824'; } /* '' */
+.icon-blaster:before { content: '\e825'; } /* '' */
+.icon-ufo-and-cow:before { content: '\e826'; } /* '' */
+.icon-venus:before { content: '\e827'; } /* '' */
+.icon-earth:before { content: '\e828'; } /* '' */
+.icon-neptune:before { content: '\e829'; } /* '' */
+.icon-mars:before { content: '\e82a'; } /* '' */
+.icon-jupiter:before { content: '\e82b'; } /* '' */
+.icon-moon:before { content: '\e82c'; } /* '' */
+.icon-sun:before { content: '\e82d'; } /* '' */
+.icon-saturn:before { content: '\e82e'; } /* '' */
+.icon-uranus:before { content: '\e82f'; } /* '' */
+.icon-death-star:before { content: '\e830'; } /* '' */
+.icon-black-hole:before { content: '\e831'; } /* '' */
