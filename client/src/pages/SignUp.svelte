@@ -1,6 +1,6 @@
 <script lang="ts">
   import { USER_STORE } from "../stores/UserStore";
-  import { slimPost } from "../utils/slimFetch";
+  import { slimGet, slimPost } from "../utils/slimFetch";
 
   let firstName: string = "";
   let lastName: string = "";
@@ -12,6 +12,7 @@
       username: `${firstName} ${lastName}`,
       inviteCode,
     });
+    await slimGet('/user/resume');
   }
 </script>
 

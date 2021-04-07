@@ -49,6 +49,7 @@
     padding: 1rem 2rem;
     /* margin: 1.5em; */
     flex: 1;
+    max-height: 100vh;
   }
 
   @media only screen and (max-width: 420px) {

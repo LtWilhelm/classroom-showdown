@@ -3,11 +3,15 @@ export class Challenge {
   name: string;
   description: string;
   fileUrl: string;
+  solution: string;
+  time: number;
   
   constructor(c?: Challenge) {
     this._id = c?._id || '';
-    this.name = c?.name || '';
-    this.description = c?.description || '';
+    this.name = c?.name || 'Challenge';
+    this.description = c?.description || 'Description';
     this.fileUrl = c?.fileUrl || '';
+    this.solution = c?.solution || '';
+    this.time = c?.time || 0;
   }
 }

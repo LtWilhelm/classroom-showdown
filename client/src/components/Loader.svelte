@@ -1,21 +1,29 @@
 <script lang="ts">
   export let showText: boolean = false;
   export let loadingText: string;
+
+  export let loading: boolean;
 </script>
 
-<loader>
-  <p>
-    {#if showText || loadingText}
-      {loadingText || "Loading..."}
-    {/if}
-  </p>
-  <div class="bg" />
-</loader>
+{#if loading}
+  <loader>
+    <p>
+      {#if showText || loadingText}
+        {loadingText || "Loading..."}
+      {/if}
+    </p>
+    <div class="bg" />
+  </loader>
+{:else}
+  <slot />
+{/if}
 
 <style>
   loader {
     width: 100%;
     height: 100%;
+
+    min-height: 3rem;
 
     overflow: hidden;
     position: relative;

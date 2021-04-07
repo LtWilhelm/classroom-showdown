@@ -12,8 +12,9 @@ export class UserResource extends Drash.Http.Resource {
     this.response.headers.set('content-type', 'application/json');
     this.id = this.request.getPathParam('id');
 
-    if (this.id) await this.getById();
-    else await this.getAll();
+    if (this.id === 'all') this.getAll()
+    else if (this.id) await this.getById();
+    else await this.getAllStudents();
 
     return this.response;
   }
@@ -30,12 +31,16 @@ export class UserResource extends Drash.Http.Resource {
   private id?: string | null;
 
   private async getAll() {
-    const u = await users.find({}).toArray();
+    const u = await users.find({}, { noCursorTimeout: false } as any).toArray();
+    this.response.body = u;
+  }
+  private async getAllStudents() {
+    const u = await users.find({role: "student"}, { noCursorTimeout: false } as any).toArray();
     this.response.body = u;
   }
 
   private async getById() {
-    const u = await users.findOne({ _id: new Bson.ObjectId(this.id) });
+    const u = await users.findOne({ _id: new Bson.ObjectId(this.id) }, { noCursorTimeout: false } as any);
     this.response.body = u;
   }
 }
@@ -60,7 +65,7 @@ export class UserSignUpResource extends Drash.Http.Resource {
     if (method === "signup") {
       const body = this.request.getAllBodyParams().data as any;
       if (body) {
-        const invite = await invites.findOne({_id: new Bson.ObjectID(body.inviteCode.substring(3))});
+        const invite = await invites.findOne({ _id: new Bson.ObjectID(body.inviteCode.substring(3)) }, { noCursorTimeout: false } as any);
         if (invite && invite.type.substring(0, 3) === body.inviteCode.substring(0, 3)) {
           const id = await users.insertOne({
             username: body.username,
@@ -73,6 +78,25 @@ export class UserSignUpResource extends Drash.Http.Resource {
         }
       }
     }
+    return this.response;
+  }
+
+  public async PUT() {
+    const method = this.request.getPathParam('method');
+
+    if (method === 'challenge') {
+      const { user } = (this.request as Drash.Http.Request & { user: any })
+      const body = this.request.getAllBodyParams().data;
+
+      await users.updateOne({ _id: new Bson.ObjectID(user._id) }, {
+        $push: {
+          scores: body
+        }
+      })
+
+      this.response.body = await users.findOne({ _id: new Bson.ObjectID(user._id) }, { noCursorTimeout: false } as any);
+    }
+
     return this.response;
   }
 }

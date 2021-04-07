@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+import Loader from "../components/Loader.svelte";
   import { User } from "../models/User";
   import { USER_STORE } from "../stores/UserStore";
   import { slimGet } from "../utils/slimFetch";
@@ -23,32 +24,42 @@
       return newU;
     })
     .sort(({ average: a }, { average: b }) => b - a);
+
+  const loadingText = () => {
+    const messages = ["Getting participants...", "Loading the winners...", "Generating Leaderboard...", "Making up scores..."];
+
+    const message = messages[Math.floor(Math.random() * messages.length)];
+    console.log(message);
+    return message;
+  }
 </script>
 
 <div class="content">
-  <table>
-    <thead>
-      <tr>
-        <th />
-        <th>Name</th>
-        <th>Score</th>
-        <th>Completed</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each sorted as user, i}
-        <tr
-          class:valid={user.average > 0 && user.scores.length > 0}
-          class:you={user._id === $USER_STORE._id}
-        >
-          <td>{1 + i}</td>
-          <td>{user.username}</td>
-          <td class="center">{user.average}</td>
-          <td class="center">{user.scores.length}</td>
+  <Loader loading={users.length === 0} loadingText="">
+    <table>
+      <thead>
+        <tr>
+          <th />
+          <th>Name</th>
+          <th>Score</th>
+          <th>Completed</th>
         </tr>
-      {/each}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {#each sorted as user, i}
+          <tr
+            class:valid={user.average > 0 && user.scores.length > 0}
+            class:you={user._id === $USER_STORE._id}
+          >
+            <td>{1 + i}</td>
+            <td>{user.username}</td>
+            <td class="center">{user.average}</td>
+            <td class="center">{user.scores.length}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </Loader>
 </div>
 
 <style>
