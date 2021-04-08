@@ -35,7 +35,7 @@ export class UserResource extends Drash.Http.Resource {
     this.response.body = u;
   }
   private async getAllStudents() {
-    const u = await users.find({role: "student"}, { noCursorTimeout: false } as any).toArray();
+    const u = await users.find({ role: "student" }, { noCursorTimeout: false } as any).toArray();
     this.response.body = u;
   }
 
@@ -81,9 +81,10 @@ export class UserSignUpResource extends Drash.Http.Resource {
     if (method === "signup") {
       const body = this.request.getAllBodyParams().data as any;
       if (body) {
-          const user = await users.findOne({
-            username: body.username,
-          }, {noCursorTimeout: false} as any);
+        const user = await users.findOne({
+          username: body.username,
+        }, { noCursorTimeout: false } as any);
+        if (user)
           this.response.setCookie({
             name: cookieName,
             value: user._id.toString()
