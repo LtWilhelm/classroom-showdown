@@ -78,7 +78,7 @@ export class UserSignUpResource extends Drash.Http.Resource {
         }
       }
     }
-    if (method === "signup") {
+    if (method === "signin") {
       const body = this.request.getAllBodyParams().data as any;
       if (body) {
         const user = await users.findOne({

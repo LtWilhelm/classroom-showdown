@@ -14,7 +14,7 @@
           inviteCode,
         })
       : await slimPost("/user/signin", {
-          username: `${firstName} ${lastName}`,
+          username: `${firstName.trim()} ${lastName.trim()}`,
         });
     await slimGet("/user/resume");
   }
