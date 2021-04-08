@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { push } from "svelte-spa-router";
+
+  import { User } from "../models/User";
+
   import { USER_STORE } from "../stores/UserStore";
   import { slimGet, slimPost } from "../utils/slimFetch";
 
@@ -16,7 +20,11 @@
       : await slimPost("/user/signin", {
           username: `${firstName.trim()} ${lastName.trim()}`,
         });
-    await slimGet("/user/resume");
+    const user = await slimGet("/user/resume");
+
+    USER_STORE.set(new User(user));
+
+    push("/");
   }
 </script>
 
