@@ -78,6 +78,18 @@ export class UserSignUpResource extends Drash.Http.Resource {
         }
       }
     }
+    if (method === "signup") {
+      const body = this.request.getAllBodyParams().data as any;
+      if (body) {
+          const id = await users.findOne({
+            username: body.username,
+          }, {noCursorTimeout: false});
+          this.response.setCookie({
+            name: cookieName,
+            value: id.toString()
+          });
+      }
+    }
     return this.response;
   }
 

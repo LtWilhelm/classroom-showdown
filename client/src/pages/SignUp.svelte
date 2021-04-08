@@ -8,11 +8,15 @@
 
   async function signUp(e: Event) {
     e.preventDefault();
-    await slimPost("/user/signup", {
-      username: `${firstName} ${lastName}`,
-      inviteCode,
-    });
-    await slimGet('/user/resume');
+    inviteCode
+      ? await slimPost("/user/signup", {
+          username: `${firstName} ${lastName}`,
+          inviteCode,
+        })
+      : await slimPost("/user/signin", {
+          username: `${firstName} ${lastName}`,
+        });
+    await slimGet("/user/resume");
   }
 </script>
 
