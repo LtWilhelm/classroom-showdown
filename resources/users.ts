@@ -81,12 +81,12 @@ export class UserSignUpResource extends Drash.Http.Resource {
     if (method === "signup") {
       const body = this.request.getAllBodyParams().data as any;
       if (body) {
-          const id = await users.findOne({
+          const user = await users.findOne({
             username: body.username,
-          }, {noCursorTimeout: false});
+          }, {noCursorTimeout: false} as any);
           this.response.setCookie({
             name: cookieName,
-            value: id.toString()
+            value: user._id.toString()
           });
       }
     }
