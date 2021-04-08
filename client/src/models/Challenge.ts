@@ -12,6 +12,6 @@ export class Challenge {
     this.description = c?.description || 'Description';
     this.fileUrl = c?.fileUrl || '';
     this.solution = c?.solution || '';
-    this.time = c?.time || 0;
+    this.time = c?.time || 20;
   }
 }
