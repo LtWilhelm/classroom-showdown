@@ -48,6 +48,8 @@
     USER_STORE.set(new User(user));
   };
 
+  $: seconds < 0 && clearInterval(interval);
+
   onDestroy(() => clearInterval(interval));
 </script>
 
@@ -60,7 +62,11 @@
     ).score}
   </p>
 {:else if started}
-  <p>Time: {formatSeconds(seconds)}</p>
+  {#if seconds > 0}
+    <p>Time: {formatSeconds(seconds)}</p>
+  {:else}
+    <p>OVERTIME</p>
+  {/if}
   <p>{challenge.description}</p>
   <form>
     <input type="text" bind:value={answer} placeholder="Your answer" />
