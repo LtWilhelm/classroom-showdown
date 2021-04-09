@@ -26,6 +26,7 @@
   let answer = "";
 
   let score = 50;
+  let incorrect = false;
 
   const checkAnswer = (e: Event) => {
     e.preventDefault();
@@ -33,19 +34,25 @@
     const regex = new RegExp(challenge.solution);
 
     if (regex.test(answer)) completeChallenge();
-    else Math.max(0, (score -= 10));
+    else {
+      incorrect = true;
+      setTimeout(() => {
+        incorrect = false;
+      }, 2000);
+      score = Math.max(0, score - 10);
+    }
   };
+  let completed = false;
   const completeChallenge = async () => {
+    completed = true;
     clearInterval(interval);
-    console.log(score);
     score += Math.floor(50 * (seconds / ((challenge.time || 20) * 60)));
-    console.log(score);
     const user = await slimPut("/user/challenge", {
       challengeId: challenge._id,
       score,
     });
 
-    USER_STORE.set(new User(user));
+    USER_STORE.update(() => new User(user));
   };
 
   $: seconds < 0 && clearInterval(interval);
@@ -54,12 +61,12 @@
 </script>
 
 <h1>{challenge.name}</h1>
-{#if $USER_STORE.scores.find((s) => s.challengeId === challenge._id)}
+{#if $USER_STORE.scores.find((s) => s.challengeId === challenge._id) || completed}
   <p>You have completed the challenge!</p>
   <p>
     Final Score: {$USER_STORE.scores.find(
       (s) => s.challengeId === challenge._id
-    ).score}
+    )?.score || score}
   </p>
 {:else if started}
   {#if seconds > 0}
@@ -76,3 +83,25 @@
   <p>Click start below to start the challenge!</p>
   <button on:click={start}>Start</button>
 {/if}
+
+{#if incorrect}
+  <incorrect>Incorrect!</incorrect>
+{/if}
+
+<style>
+  @keyframes incorrect {
+    0% {
+      opacity: 1;
+    }
+    10% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  incorrect {
+    animation: incorrect 2s linear forwards;
+  }
+</style>

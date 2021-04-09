@@ -99,13 +99,14 @@ export class UserSignUpResource extends Drash.Http.Resource {
 
     if (method === 'challenge') {
       const { user } = (this.request as Drash.Http.Request & { user: any })
-      const body = this.request.getAllBodyParams().data;
+      const body = this.request.getAllBodyParams().data as { challengeId: string, score: number };
 
-      await users.updateOne({ _id: new Bson.ObjectID(user._id) }, {
-        $push: {
-          scores: body
-        }
-      })
+      if (!user.scores.find((s: any) => s.challengeId === body?.challengeId))
+        await users.updateOne({ _id: new Bson.ObjectID(user._id) }, {
+          $push: {
+            scores: body
+          }
+        })
 
       this.response.body = await users.findOne({ _id: new Bson.ObjectID(user._id) }, { noCursorTimeout: false } as any);
     }
