@@ -5,8 +5,8 @@
   import { User } from "../../models/User";
   import { USER_STORE } from "../../stores/UserStore";
   import { formatSeconds } from "../../utils/formatSeconds";
-  import { slimPut } from "../../utils/slimFetch";
-import QuestionAnswerer from "./QuestionAnswerer.svelte";
+  import { slimGet, slimPut } from "../../utils/slimFetch";
+  import QuestionAnswerer from "./QuestionAnswerer.svelte";
 
   export let challenge: Challenge;
 
@@ -24,18 +24,16 @@ import QuestionAnswerer from "./QuestionAnswerer.svelte";
     }, 1000);
   };
 
-
   let score = 0;
   let incorrect = false;
 
   let answeredCorrectly = [];
 
   const checkAnswer = (idx: number, answer: string) => {
-
     const question = challenge.questions[idx];
-    
+
     const regex = new RegExp(question.solution);
-    
+
     if (regex.test(answer)) answerCorrect(idx);
     else {
       incorrect = true;
@@ -45,7 +43,7 @@ import QuestionAnswerer from "./QuestionAnswerer.svelte";
       // score = Math.max(0, score - 10);
     }
   };
-  
+
   const answerCorrect = (idx: number) => {
     if (!answeredCorrectly.includes(idx)) {
       const question = challenge.questions[idx];
@@ -65,10 +63,11 @@ import QuestionAnswerer from "./QuestionAnswerer.svelte";
     completed = true;
     clearInterval(interval);
     score += Math.floor(50 * (seconds / ((challenge.time || 20) * 60)));
-    const user = await slimPut("/user/challenge", {
+    await slimPut("/user/challenge", {
       challengeId: challenge._id,
       score,
     });
+    const user = await slimGet("/user/resume");
 
     USER_STORE.update(() => new User(user));
   };
@@ -92,16 +91,20 @@ import QuestionAnswerer from "./QuestionAnswerer.svelte";
   {:else}
     <p>OVERTIME</p>
   {/if}
-  <p>{challenge.description}</p>
+  <p>{@html challenge.description}</p>
   {#each challenge.questions as question, i}
     {#if challenge.questions.length > 1}
       <h4>Section {i + 1}</h4>
     {/if}
-    <p>{question.description}</p>
+    <p>{@html question.description}</p>
     {#if answeredCorrectly.includes(i)}
       <p>You have answered this question correctly.</p>
-      {:else}
-      <QuestionAnswerer on:answer={({detail: {index, answer}}) => checkAnswer(index, answer)} index={i} />
+    {:else}
+      <QuestionAnswerer
+        on:answer={({ detail: { index, answer } }) =>
+          checkAnswer(index, answer)}
+        index={i}
+      />
     {/if}
     {#if incorrect}
       <incorrect>Incorrect!</incorrect>
