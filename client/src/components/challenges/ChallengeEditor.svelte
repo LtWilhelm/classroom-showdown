@@ -15,6 +15,10 @@
 
     dispatch("refresh");
   }
+
+  const addQuestion = () => {
+    challenge = challenge.addQuestion();
+  };
 </script>
 
 <h1 contenteditable bind:innerHTML={challenge.name} />
@@ -27,8 +31,19 @@
   minutes to complete the challenge.
 </p>
 
-<input type="text" bind:value={challenge.solution} placeholder="Solution" />
+{#each challenge.questions as question, i}
+  <h4>Question {i + 1}</h4>
+  <p contenteditable bind:innerHTML={question.description} />
+  <input type="text" bind:value={question.solution} placeholder="Solution" /><br
+  />
+  <p>
+    Students will earn
+    <input type="number" bind:value={question.score} />
+    points for answering this question correctly.
+  </p>
+{/each}
 
+<button on:click={addQuestion}>Add Question</button>
 <button on:click={save}>Save</button>
 
 <style>

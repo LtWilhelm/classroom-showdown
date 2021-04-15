@@ -25,7 +25,6 @@
   }
 
   function addChallenge() {
-    console.log("hit");
     challenges = [...challenges, new Challenge()];
   }
 

@@ -6,6 +6,7 @@
   import { USER_STORE } from "../../stores/UserStore";
   import { formatSeconds } from "../../utils/formatSeconds";
   import { slimPut } from "../../utils/slimFetch";
+import QuestionAnswerer from "./QuestionAnswerer.svelte";
 
   export let challenge: Challenge;
 
@@ -23,25 +24,42 @@
     }, 1000);
   };
 
-  let answer = "";
 
-  let score = 50;
+  let score = 0;
   let incorrect = false;
 
-  const checkAnswer = (e: Event) => {
-    e.preventDefault();
+  let answeredCorrectly = [];
 
-    const regex = new RegExp(challenge.solution);
+  const checkAnswer = (idx: number, answer: string) => {
 
-    if (regex.test(answer)) completeChallenge();
+    const question = challenge.questions[idx];
+    
+    const regex = new RegExp(question.solution);
+    
+    if (regex.test(answer)) answerCorrect(idx);
     else {
       incorrect = true;
       setTimeout(() => {
         incorrect = false;
       }, 2000);
-      score = Math.max(0, score - 10);
+      // score = Math.max(0, score - 10);
     }
   };
+  
+  const answerCorrect = (idx: number) => {
+    if (!answeredCorrectly.includes(idx)) {
+      const question = challenge.questions[idx];
+      score += question.score;
+
+      answeredCorrectly = [...answeredCorrectly, idx];
+      if (
+        answeredCorrectly.sort().every((q, i) => q === i) &&
+        answeredCorrectly.length === challenge.questions.length
+      )
+        completeChallenge();
+    }
+  };
+
   let completed = false;
   const completeChallenge = async () => {
     completed = true;
@@ -75,17 +93,23 @@
     <p>OVERTIME</p>
   {/if}
   <p>{challenge.description}</p>
-  <form>
-    <input type="text" bind:value={answer} placeholder="Your answer" />
-    <button on:click={checkAnswer}>Check Answer</button>
-  </form>
+  {#each challenge.questions as question, i}
+    {#if challenge.questions.length > 1}
+      <h4>Section {i + 1}</h4>
+    {/if}
+    <p>{question.description}</p>
+    {#if answeredCorrectly.includes(i)}
+      <p>You have answered this question correctly.</p>
+      {:else}
+      <QuestionAnswerer on:answer={({detail: {index, answer}}) => checkAnswer(index, answer)} index={i} />
+    {/if}
+    {#if incorrect}
+      <incorrect>Incorrect!</incorrect>
+    {/if}
+  {/each}
 {:else}
   <p>Click start below to start the challenge!</p>
   <button on:click={start}>Start</button>
-{/if}
-
-{#if incorrect}
-  <incorrect>Incorrect!</incorrect>
 {/if}
 
 <style>
