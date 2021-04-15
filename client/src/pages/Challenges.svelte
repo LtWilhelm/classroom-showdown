@@ -48,39 +48,43 @@
   };
 </script>
 
-<div class="content">
-  <div class="list" style="min-height: {height}px;">
-    <ul class:locked>
-      {#each challenges as challenge}
-        <li
-          class:active={currentChallenge?._id === challenge._id}
-          on:click={() => select(challenge._id)}
-        >
-          {challenge.name}
-        </li>
-      {/each}
-      {#if $USER_STORE.role === "instructor"}
-        <li class="add"><button on:click={addChallenge}>Add</button></li>
-      {/if}
-    </ul>
-  </div>
-  <Loader {loading} loadingText="Grabbing the thing, be right back...">
-    {#if currentChallenge}
-      <div>
+{#if $USER_STORE._id}
+  <div class="content">
+    <div class="list" style="min-height: {height}px;">
+      <ul class:locked>
+        {#each challenges as challenge}
+          <li
+            class:active={currentChallenge?._id === challenge._id}
+            on:click={() => select(challenge._id)}
+          >
+            {challenge.name}
+          </li>
+        {/each}
         {#if $USER_STORE.role === "instructor"}
-          <ChallengeEditor
-            challenge={currentChallenge}
-            on:refresh={getChallenges}
-          />
-        {:else}
-          <ChallengeTaker challenge={currentChallenge} on:lock={lock} />
+          <li class="add"><button on:click={addChallenge}>Add</button></li>
         {/if}
-      </div>
-    {:else}
-      {"Select a challenge from the left"}
-    {/if}
-  </Loader>
-</div>
+      </ul>
+    </div>
+    <Loader {loading} loadingText="Grabbing the thing, be right back...">
+      {#if currentChallenge}
+        <div>
+          {#if $USER_STORE.role === "instructor"}
+            <ChallengeEditor
+              challenge={currentChallenge}
+              on:refresh={getChallenges}
+            />
+          {:else}
+            <ChallengeTaker challenge={currentChallenge} on:lock={lock} />
+          {/if}
+        </div>
+      {:else}
+        {"Select a challenge from the left"}
+      {/if}
+    </Loader>
+  </div>
+{:else}
+  <h3>You must be signed in to view challenges</h3>
+{/if}
 
 <style>
   .content {
