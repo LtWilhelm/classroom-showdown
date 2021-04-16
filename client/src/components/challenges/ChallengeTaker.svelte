@@ -78,6 +78,7 @@
 </script>
 
 <h1>{challenge.name}</h1>
+
 {#if $USER_STORE.scores.find((s) => s.challengeId === challenge._id) || completed}
   <p>You have completed the challenge!</p>
   <p>
@@ -85,6 +86,9 @@
       (s) => s.challengeId === challenge._id
     )?.score || score}
   </p>
+  {:else if challenge.locked}
+  <h3>This challenge has been locked and can no longer accept submissions</h3>
+  <p>{@html challenge.description}</p>
 {:else if started}
   {#if seconds > 0}
     <p>Time: {formatSeconds(seconds)}</p>

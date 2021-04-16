@@ -5,6 +5,7 @@ export class Challenge {
   fileUrl: string;
   time: number;
   questions: Question[];
+  locked?: boolean;
 
   constructor(c?: Challenge) {
     this._id = c?._id || '';
@@ -13,6 +14,7 @@ export class Challenge {
     this.fileUrl = c?.fileUrl || '';
     this.time = c?.time || 20;
     this.questions = c?.questions ? c.questions.map(q => new Question(q)) : [new Question()];
+    this.locked = c?.locked;
   }
 
   addQuestion = () => {
