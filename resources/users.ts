@@ -104,7 +104,7 @@ export class UserSignUpResource extends Drash.Http.Resource {
 
       const challenge = await challenges.findOne({ _id: new Bson.ObjectID(body.challengeId) });
 
-      if (!user.scores?.find((s: any) => s.challengeId === body?.challengeId) && !challenge.locked)
+      if (!user.scores?.find((s: any) => s.challengeId === body?.challengeId) && !challenge?.locked)
         await users.updateOne({ _id: new Bson.ObjectID(user._id) }, {
           $push: {
             scores: body
