@@ -43,7 +43,8 @@ export class ChallengesResource extends Drash.Http.Resource {
             description: body.description,
             fileUrl: body.fileUrl,
             solution: body.solution,
-            time: body.time
+            time: body.time,
+            questions: body.questions
           }
         }
       );

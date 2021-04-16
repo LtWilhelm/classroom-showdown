@@ -28,7 +28,7 @@ export class Question {
 
   constructor(q?: Question) {
     this.solution = q?.solution || '';
-    this.description = q?.description || 'Description 🖊';
+    this.description = q?.description ?? 'Description 🖊';
     this.score = q?.score || 50;
   }
 }

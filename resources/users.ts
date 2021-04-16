@@ -108,7 +108,7 @@ export class UserSignUpResource extends Drash.Http.Resource {
           }
         })
       const newUser = await users.findOne({ _id: new Bson.ObjectID(user._id) }, { noCursorTimeout: false } as any);
-      console.log(newUser);
+      
       this.response.body = newUser
     }
 
