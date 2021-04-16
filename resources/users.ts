@@ -2,6 +2,7 @@ import { Drash } from 'drash';
 import { Bson } from 'mongo';
 
 import users from '../db/models/user.ts';
+import challenges from '../db/models/challenge.ts';
 import { cookieName } from '../consts/cookieName.ts';
 import { invites } from './invitation.ts'
 
@@ -101,14 +102,16 @@ export class UserSignUpResource extends Drash.Http.Resource {
       const { user } = (this.request as Drash.Http.Request & { user: any })
       const body = this.request.getAllBodyParams().data as { challengeId: string, score: number };
 
-      if (!user.scores?.find((s: any) => s.challengeId === body?.challengeId))
+      const challenge = await challenges.findOne({ _id: new Bson.ObjectID(body.challengeId) });
+
+      if (!user.scores?.find((s: any) => s.challengeId === body?.challengeId) && !challenge.locked)
         await users.updateOne({ _id: new Bson.ObjectID(user._id) }, {
           $push: {
             scores: body
           }
         })
       const newUser = await users.findOne({ _id: new Bson.ObjectID(user._id) }, { noCursorTimeout: false } as any);
-      
+
       this.response.body = newUser
     }
 

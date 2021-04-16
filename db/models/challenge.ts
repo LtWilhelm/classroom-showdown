@@ -10,7 +10,8 @@ export interface ChallengeSchema extends IDBI {
     description: string;
     solution: string;
     score: number;
-  }[]
+  }[];
+  locked?: boolean;
 }
 
 const challenges = db.collection<ChallengeSchema>('challenges');
